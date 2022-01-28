@@ -1,0 +1,35 @@
+server:
+  port: 9111
+
+spring:
+  application:
+    name: VR-API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: VR-USER-SERVICE
+          uri: lb://VR-USER-SERVICE
+          predicates:
+            - Path=/users/**,/userratings/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: VR-USER-SERVICE
+                fallbackuri: forward:/userServiceFallback
+        - id: VR-VIDEO-SERVICE
+          uri: lb://VR-VIDEO-SERVICE
+          predicates:
+            - Path=/videos/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: VR-VIDEO-SERVICE
+                fallbackuri: forward:/videoServiceFallback
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 4000
