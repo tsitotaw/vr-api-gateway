@@ -10,7 +10,7 @@ spring:
         - id: VR-USER-SERVICE
           uri: lb://VR-USER-SERVICE
           predicates:
-            - Path=/users/**,/userratings/**
+            - Path=/users/**,/userwatchlists/**
           filters:
             - name: CircuitBreaker
               args:
