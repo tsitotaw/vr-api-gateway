@@ -19,7 +19,7 @@ spring:
         - id: VR-VIDEO-SERVICE
           uri: lb://VR-VIDEO-SERVICE
           predicates:
-            - Path=/videos/**
+            - Path=/videos/**,/ratings/**
           filters:
             - name: CircuitBreaker
               args:
